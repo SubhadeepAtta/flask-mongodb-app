@@ -84,7 +84,23 @@ The MongoDB Secret is created separately and intentionally excluded from version
 
 - Docker Hub account (only if you want to publish the image)
 
+## Python Virtual Environment
 
+A Python virtual environment provides an isolated environment for the application's dependencies. It prevents conflicts between packages required by different Python projects and avoids modifying the system-wide Python installation.
+
+**Benefits:**
+- **Dependency Isolation:** Each project can use its own package versions without affecting other projects.
+- **Avoids Version Conflicts:** Different applications can use different versions of the same library.
+- **Cleaner System Environment:** Project dependencies remain separate from globally installed Python packages.
+- **Reproducibility:** A `requirements.txt` file allows the same dependencies to be installed in another environment.
+- **Easier Maintenance:** Dependencies can be managed, updated, and removed without affecting other Python applications.
+
+For this Flask application, a virtual environment can be created and activated using:
+
+```bash
+python -m venv venv
+
+```
 
 ## 1. Clone the repository
 
@@ -457,6 +473,7 @@ mongodb:27017
 
 ```
 
+When the Flask pod attempts to connect to `mongodb:27017`, its DNS resolver sends a DNS query to the Kubernetes DNS service. CoreDNS receives the query and resolves the MongoDB Service name using Kubernetes service records. It returns the ClusterIP associated with the MongoDB Service. Kubernetes Service networking then routes the traffic to the MongoDB pod selected by that Service. This allows Flask pods to communicate with MongoDB using a stable service name instead of depending on changing pod IP addresses.
 
 
 The full MongoDB Service DNS name is:
