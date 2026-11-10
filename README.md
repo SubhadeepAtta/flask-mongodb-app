@@ -392,24 +392,15 @@ Open:
 
 
 
-### API endpoints
-
-
+## API Endpoints
 
 | Method | Endpoint | Description |
-
 |---|---|---|
-
 | GET | `/` | Returns a welcome message and current time |
-
 | POST | `/data` | Inserts JSON data into MongoDB |
-
 | GET | `/data` | Retrieves stored records from MongoDB |
 
-
-
 Example POST request to `http://localhost:5000/data`:
-
 
 
 ```json
@@ -515,11 +506,8 @@ Both Flask and MongoDB containers use the following resource configuration:
 
 
 | Resource | Request | Limit |
-
 |---|---:|---:|
-
 | CPU | 200m | 500m |
-
 | Memory | 250M | 500M |
 
 
@@ -545,13 +533,9 @@ The Flask Deployment uses an HPA configured with:
 
 
 | Setting | Value |
-
 |---|---:|
-
 | CPU utilization target | 70% |
-
 | Minimum replicas | 2 |
-
 | Maximum replicas | 5 |
 
 
@@ -587,23 +571,14 @@ The following scenarios were tested in Minikube:
 
 
 | Test scenario | Result |
-
 |---|---|
-
 | Flask welcome endpoint | Passed |
-
 | MongoDB POST operation | Passed |
-
 | MongoDB GET operation | Passed |
-
 | Authenticated Flask-to-MongoDB connection | Passed |
-
 | PV/PVC binding | Passed |
-
 | MongoDB pod recreation and data persistence | Passed |
-
 | HPA scale-up under load | Passed |
-
 | HPA scale-down after stopping traffic | Passed |
 
 
@@ -775,21 +750,13 @@ The replica count eventually returned to 2 after the load generators were stoppe
 
 
 | Component | Chosen approach | Alternative considered | Reason for choosing the implemented approach |
-
 |---|---|---|---|
-
 | Flask workload | Deployment | StatefulSet | Flask instances are stateless and do not require stable pod identities or persistent storage. |
-
 | MongoDB workload | StatefulSet | Deployment | MongoDB benefits from stable pod identity and persistent storage association. |
-
 | MongoDB Service | ClusterIP | NodePort / LoadBalancer | The database should only be accessible from within the Kubernetes cluster. |
-
 | Flask Service | NodePort | ClusterIP only | NodePort provides an external access mechanism for the Flask application. Port forwarding was used for local testing. |
-
 | Persistent storage | PV and PVC using hostPath | Dynamic volume provisioning | hostPath is sufficient for this single-node Minikube environment and demonstrates persistent storage configuration. |
-
 | Scaling | HPA based on CPU utilization | Manual replica scaling | HPA automatically adjusts the number of Flask replicas based on CPU demand. |
-
 | Credentials | Kubernetes Secret | Hardcoded credentials in application code | Secrets separate credentials from application code and Kubernetes manifests committed to the repository. |
 
 
